@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
-
 
 android {
     compileSdkVersion 30
@@ -17,6 +17,8 @@ android {
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "SERVER_URL", "\"URL\"")
     }
 
     buildTypes {
@@ -45,9 +47,12 @@ android {
 }
 
 dependencies {
-    api project(":base")
 
+    // kotlin
     implementation "androidx.core:core-ktx:$rootProject.coreKtxVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$rootProject.kotlinVersion"
+
+    // design / ui
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
 
@@ -55,11 +60,18 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$rootProject.testExtJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
 
+    // viewmodel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
+
+    // hilt
+    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
+
     // retrofit2
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpLoggingVersion"
 
     // moshi
-    implementation "com.squareup.moshi:moshi$rootProject.moshiVersion"
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
+    implementation "com.squareup.moshi:moshi-kotlin:$rootProject.moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$rootProject.moshiVersion"
 }
